@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: n8n-app
+    env: docker
+    dockerfilePath: ./n8n-app/Dockerfile
+    dockerContext: ./n8n-app
+    envVars:
+      - key: N8N_BASIC_AUTH_ACTIVE
+        value: true
+      - key: N8N_BASIC_AUTH_USER
+        value: admin
+      - key: N8N_BASIC_AUTH_PASSWORD
+        generateValue: true
+      - key: N8N_HOST
+        value: 0.0.0.0
+      - key: N8N_EDITOR_BASE_URL
+        value: https://n8n-render-04dk.onrender.com
+      - key: WEBHOOK_TUNNEL_URL
+        value: https://n8n-render-04dk.onrender.com
+      - key: N8N_DIAGNOSTICS_ENABLED
+        value: false
+
+  - type: cron
+    name: n8n-keep-alive
+    env: node
+    rootDir: ./keep-alive-service
+    schedule: "*/14 * * * *"
+    buildCommand: "npm install"
+    startCommand: "node keep-alive.js"
+    envVars:
+      - key: TARGET_URL
+        value: https://n8n-render-04dk.onrender.com

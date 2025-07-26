@@ -6,61 +6,54 @@
 - **n8n Web App**: https://n8n-render-04dk.onrender.com
 - **Health Check**: https://n8n-render-04dk.onrender.com/healthz
 
-## การ Deploy
+## Project Structure
 
-### วิธีที่ 1: ใช้ Blueprint (แนะนำ)
-1. Push โค้ดขึ้น GitHub
-2. ใน Render Dashboard เลือก "New" → "Blueprint"
-3. เชื่อมต่อ GitHub repo
-4. Render จะสร้าง services อัตโนมัติ:
-   - `n8n-app` (Web Service)
-   - `n8n-keep-alive` (Cron Job)
-
-### วิธีที่ 2: สร้างแยก
-1. **Web Service**:
-   - Environment: Docker
-   - Dockerfile Path: `./Dockerfile`
-   - ตั้ง Environment Variables ตาม `.env.example`
-
-2. **Cron Job Service**:
-   - Environment: Node.js
-   - Build Command: `npm install`
-   - Start Command: `node keep-alive.js`
-   - Schedule: `*/14 * * * *`
-   - Environment Variable: `TARGET_URL=https://n8n-render-04dk.onrender.com`
-
-## Environment Variables
-
-### สำหรับ Web Service (n8n):
 ```
-N8N_BASIC_AUTH_ACTIVE=true
-N8N_BASIC_AUTH_USER=admin
-N8N_BASIC_AUTH_PASSWORD=your-secure-password
-N8N_HOST=0.0.0.0
-N8N_EDITOR_BASE_URL=https://n8n-render-04dk.onrender.com
-WEBHOOK_TUNNEL_URL=https://n8n-render-04dk.onrender.com
-N8N_DIAGNOSTICS_ENABLED=false
+.
+├── n8n-app/                    # n8n Application
+├── keep-alive-service/         # Keep-Alive Service  
+├── deployment/                 # Deployment Configurations
+└── README.md                  # This file
 ```
 
-### สำหรับ Cron Job (keep-alive):
+ดู [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) สำหรับรายละเอียดเพิ่มเติม
+
+## Quick Start
+
+### วิธีที่ 1: Render Blueprint (แนะนำ)
+```bash
+# 1. Clone และ push ขึ้น GitHub
+git clone <your-repo>
+git push origin main
+
+# 2. ใน Render Dashboard:
+# - เลือก "New" → "Blueprint"
+# - เชื่อมต่อ GitHub repo
+# - ใช้ deployment/render.yaml
 ```
-TARGET_URL=https://n8n-render-04dk.onrender.com
-```
 
-## ไฟล์สำคัญ
+### วิธีที่ 2: Deploy แยก
+1. **n8n App**: Deploy `n8n-app/` เป็น Web Service
+2. **Keep-Alive**: Deploy `keep-alive-service/` เป็น Cron Job
 
-- `Dockerfile` - Docker configuration สำหรับ n8n
-- `entrypoint.sh` - Script เริ่มต้น n8n
-- `keep-alive.js` - Script ping service เพื่อป้องกัน sleep
-- `render.yaml` - Blueprint configuration สำหรับ Render
-- `package.json` - Dependencies สำหรับ keep-alive service
+ดู [deployment/README.md](deployment/README.md) สำหรับรายละเอียด
 
-## การทำงานของ Keep-Alive
+## Components
 
-- Cron job จะรันทุก 14 นาที
-- Ping ไปที่ `/healthz` endpoint
-- ป้องกัน Render free tier sleep (15 นาที)
-- ไม่ต้องพึ่งบริการภายนอก
+### 🚀 n8n-app
+- Workflow automation platform
+- Docker-based deployment
+- Basic authentication enabled
+
+### ⏰ keep-alive-service  
+- Prevents Render free tier sleep
+- Runs every 14 minutes
+- Node.js cron job
+
+### 📦 deployment
+- Multiple deployment options
+- Render Blueprint configuration
+- GitHub Actions alternative
 
 ## การเข้าใช้งาน
 
@@ -68,6 +61,12 @@ TARGET_URL=https://n8n-render-04dk.onrender.com
 2. Login ด้วย:
    - Username: `admin`
    - Password: ตามที่ตั้งใน Environment Variables
+
+## การปรับแต่ง
+
+- **เปลี่ยน URL**: แก้ไขใน deployment configs และ environment variables
+- **เปลี่ยน Schedule**: แก้ไข cron expression ใน deployment/render.yaml
+- **เพิ่มฟีเจอร์**: แก้ไขใน directories ที่เกี่ยวข้อง
 
 ## หมายเหตุ
 

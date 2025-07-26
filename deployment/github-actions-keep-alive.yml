@@ -1,0 +1,18 @@
+name: Keep Render Service Alive
+
+on:
+  schedule:
+    # รันทุก 14 นาที
+    - cron: '*/14 * * * *'
+  workflow_dispatch: # อนุญาตให้รันด้วยตนเอง
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Ping Render Service
+      run: |
+        echo "Pinging service at $(date)"
+        curl -f https://n8n-render-04dk.onrender.com/healthz || echo "Ping failed"
+        echo "Ping completed"
