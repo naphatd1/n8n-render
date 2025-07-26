@@ -1,0 +1,21 @@
+# Use official n8n image
+FROM n8nio/n8n:latest
+
+# Set working directory
+WORKDIR /home/node
+
+# Switch to root temporarily
+USER root
+
+# Copy and set permissions for entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Switch back to node user
+USER node
+
+# Expose port
+EXPOSE 5678
+
+# Set default command
+ENTRYPOINT ["/entrypoint.sh"]

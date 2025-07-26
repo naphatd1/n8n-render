@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # สร้างโฟลเดอร์ถ้ายังไม่มี
 mkdir -p ~/.n8n
@@ -7,5 +8,7 @@ mkdir -p ~/.n8n
 export N8N_PORT=${PORT:-5678}
 export N8N_HOST=0.0.0.0
 
+echo "Starting n8n on ${N8N_HOST}:${N8N_PORT}"
+
 # เริ่มรัน n8n
-n8n start
+exec n8n start
