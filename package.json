@@ -1,0 +1,12 @@
+{
+  "name": "n8n-keep-alive",
+  "version": "1.0.0",
+  "description": "Keep-alive service for n8n on Render",
+  "main": "keep-alive.js",
+  "scripts": {
+    "start": "node keep-alive.js"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
