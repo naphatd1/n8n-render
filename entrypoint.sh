@@ -1,10 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
-# Ensure required folders exist
-mkdir -p /home/node/.n8n
+# สร้างโฟลเดอร์ถ้ายังไม่มี
+mkdir -p ~/.n8n
 
-# Set correct permissions
-chown -R node:node /home/node/.n8n
-
-# Start n8n
-exec su-exec node n8n
+# เริ่มรัน n8n
+n8n start
