@@ -3,5 +3,9 @@
 # สร้างโฟลเดอร์ถ้ายังไม่มี
 mkdir -p ~/.n8n
 
+# ใช้ PORT ที่ Render กำหนดให้
+export N8N_PORT=${PORT:-5678}
+export N8N_HOST=0.0.0.0
+
 # เริ่มรัน n8n
 n8n start
